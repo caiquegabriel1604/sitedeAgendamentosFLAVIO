@@ -7,105 +7,174 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <nav class="navbar">
+  <nav class="navbar" role="navigation" aria-label="Barra principal">
     <h1>Laboratório de Informática</h1>
     <div class="nav-buttons">
-      <button id="btn-darkmode" title="Modo Escuro">🌙</button>
-      <button id="btn-daltonic" title="Modo Daltônico">🎨</button>
+      <button id="btn-darkmode" aria-pressed="false" title="Alternar modo escuro">🌙</button>
+      <button id="btn-daltonic" aria-pressed="false" title="Alternar modo daltônico">🎨</button>
     </div>
   </nav>
 
-  <main id="main-content">
+  <main id="main-content" class="container" tabindex="-1">
+    <!-- ARIA Status region -->
+    <div id="sr-status" role="status" aria-live="polite" class="sr-only"></div>
+
     <!-- LOGIN -->
-    <section id="login-screen" class="active screen">
-      <h2>Login</h2>
-      <input type="text" id="login-user" placeholder="Usuário" />
-      <input type="password" id="login-pass" placeholder="Senha" />
-      <select id="login-type">
+    <section id="login-screen" class="active screen" aria-labelledby="login-title">
+      <h2 id="login-title">Login</h2>
+      <label for="login-user" class="visually-hidden">Usuário</label>
+      <input type="text" id="login-user" placeholder="Usuário" autocomplete="username" />
+
+      <label for="login-pass" class="visually-hidden">Senha</label>
+      <input type="password" id="login-pass" placeholder="Senha" autocomplete="current-password" />
+
+      <label for="login-type" class="visually-hidden">Tipo de conta</label>
+      <select id="login-type" aria-label="Tipo de conta">
         <option value="professor">Professor</option>
         <option value="adm">ADM</option>
       </select>
-      <input type="password" id="adm-code" placeholder="Código ADM (160409)" />
-      <button id="btn-login">Entrar</button>
+
+      <input type="password" id="adm-code" placeholder="Código ADM (160409)" aria-hidden="true" />
+
+      <button id="btn-login" class="primary">Entrar</button>
+
       <p>Não tem conta?</p>
       <div class="register-buttons">
-        <button id="go-register-prof">Sou Professor</button>
-        <button id="go-register-adm">Sou ADM</button>
+        <button id="go-register-prof" class="secondary">Sou Professor</button>
+        <button id="go-register-adm" class="secondary">Sou ADM</button>
       </div>
     </section>
 
     <!-- CADASTRO PROFESSOR -->
-    <section id="register-prof-screen" class="screen">
-      <h2>Cadastro de Professor</h2>
+    <section id="register-prof-screen" class="screen" aria-labelledby="regp-title">
+      <h2 id="regp-title">Cadastro de Professor</h2>
+
+      <label for="regp-gmail" class="visually-hidden">Gmail</label>
       <input type="email" id="regp-gmail" placeholder="Gmail" />
+
+      <label for="regp-user" class="visually-hidden">Nome de Usuário</label>
       <input type="text" id="regp-user" placeholder="Nome de Usuário" />
+
+      <label for="regp-pass" class="visually-hidden">Senha</label>
       <input type="password" id="regp-pass" placeholder="Senha" />
+
+      <label for="regp-confirm" class="visually-hidden">Confirmar Senha</label>
       <input type="password" id="regp-confirm" placeholder="Confirmar Senha" />
-      <button id="btn-register-prof">Cadastrar</button>
-      <p>Já tem conta? <a id="go-login1">Fazer login</a></p>
+
+      <button id="btn-register-prof" class="primary">Cadastrar</button>
+      <p>Já tem conta? <a id="go-login1" href="#" role="link">Fazer login</a></p>
     </section>
 
     <!-- CADASTRO ADM -->
-    <section id="register-adm-screen" class="screen">
-      <h2>Cadastro de Administrador</h2>
+    <section id="register-adm-screen" class="screen" aria-labelledby="rega-title">
+      <h2 id="rega-title">Cadastro de Administrador</h2>
+
+      <label for="rega-gmail" class="visually-hidden">Gmail</label>
       <input type="email" id="rega-gmail" placeholder="Gmail" />
+
+      <label for="rega-user" class="visually-hidden">Nome de Usuário</label>
       <input type="text" id="rega-user" placeholder="Nome de Usuário" />
+
+      <label for="rega-pass" class="visually-hidden">Senha</label>
       <input type="password" id="rega-pass" placeholder="Senha" />
+
+      <label for="rega-confirm" class="visually-hidden">Confirmar Senha</label>
       <input type="password" id="rega-confirm" placeholder="Confirmar Senha" />
+
+      <label for="rega-code" class="visually-hidden">Código ADM</label>
       <input type="password" id="rega-code" placeholder="Código ADM (160409)" />
-      <button id="btn-register-adm">Cadastrar</button>
-      <p>Já tem conta? <a id="go-login2">Fazer login</a></p>
+
+      <button id="btn-register-adm" class="primary">Cadastrar</button>
+      <p>Já tem conta? <a id="go-login2" href="#" role="link">Fazer login</a></p>
     </section>
 
     <!-- PROFESSOR -->
-    <section id="professor-screen" class="screen">
-      <h2>Agendar Horário</h2>
-      <div class="form-agendamento">
-        <input type="text" id="prof-nome" placeholder="Nome do Professor" />
-        <input type="text" id="prof-turma" placeholder="Turma" />
-        <input type="text" id="prof-materia" placeholder="Matéria" />
-        <label>Escolha o dia:</label>
-        <input type="date" id="prof-data" />
+    <section id="professor-screen" class="screen" aria-labelledby="prof-title">
+      <div class="header-row">
+        <h2 id="prof-title">Agendar Horário</h2>
+        <button id="btn-logout-prof" class="link-like">Sair</button>
       </div>
 
-      <h3>Selecione um horário:</h3>
-      <div id="horarios"></div>
+      <form id="form-agendamento" class="card" aria-label="Formulário de agendamento">
+        <div class="field">
+          <label for="prof-nome">Nome do Professor</label>
+          <input type="text" id="prof-nome" />
+        </div>
+        <div class="field">
+          <label for="prof-turma">Turma</label>
+          <input type="text" id="prof-turma" />
+        </div>
+        <div class="field">
+          <label for="prof-materia">Matéria</label>
+          <input type="text" id="prof-materia" />
+        </div>
+        <div class="field">
+          <label for="prof-data">Escolha o dia</label>
+          <input type="date" id="prof-data" />
+        </div>
+
+        <h3>Selecione um horário</h3>
+        <div id="horarios" class="horarios-grid" role="list"></div>
+      </form>
 
       <div class="painel-professor">
-        <h3>📋 Seus Agendamentos</h3>
-        <div id="meus-agendamentos"></div>
+        <div class="panel card">
+          <h3>📋 Seus Agendamentos</h3>
+          <div id="meus-agendamentos" aria-live="polite"></div>
+        </div>
 
-        <h3>👩‍🏫 Outros Professores</h3>
-        <div id="outros-agendamentos"></div>
+        <div class="panel card">
+          <h3>👩‍🏫 Agendamentos Aceitos de Outros</h3>
+          <div id="outros-agendamentos" aria-live="polite"></div>
+        </div>
       </div>
-
-      <button id="btn-voltar1">Sair</button>
     </section>
 
     <!-- ADM -->
-    <section id="adm-screen" class="screen">
-      <h2>Painel do Administrador</h2>
-      <div class="adm-painel">
-        <div class="adm-section">
-          <h3>⏳ Pendentes</h3>
-          <div id="pendentes"></div>
-        </div>
-        <div class="adm-section">
-          <h3>✅ Aceitos</h3>
-          <div id="aceitos"></div>
-        </div>
-        <div class="adm-section">
-          <h3>❌ Recusados</h3>
-          <div id="recusados"></div>
-        </div>
-        <div class="adm-section">
-          <h3>📅 Todos os Agendamentos</h3>
-          <div id="todos"></div>
+    <section id="adm-screen" class="screen" aria-labelledby="adm-title">
+      <div class="header-row">
+        <h2 id="adm-title">Painel do Administrador</h2>
+        <div class="adm-controls">
+          <input id="adm-search" placeholder="Pesquisar por nome, turma, matéria..." aria-label="Pesquisar agendamentos" />
+          <select id="adm-filter" aria-label="Filtrar por status">
+            <option value="all">Todos</option>
+            <option value="pendente">Pendentes</option>
+            <option value="aceito">Aceitos</option>
+            <option value="recusado">Recusados</option>
+          </select>
+          <button id="btn-logout-adm" class="link-like">Sair</button>
         </div>
       </div>
-      <button id="btn-voltar2">Sair</button>
+
+      <div class="adm-painel">
+        <div class="adm-section card">
+          <h3>⏳ Pendentes</h3>
+          <div id="pendentes" aria-live="polite"></div>
+        </div>
+        <div class="adm-section card">
+          <h3>✅ Aceitos</h3>
+          <div id="aceitos" aria-live="polite"></div>
+        </div>
+        <div class="adm-section card">
+          <h3>❌ Recusados</h3>
+          <div id="recusados" aria-live="polite"></div>
+        </div>
+        <div class="adm-section card">
+          <h3>📅 Todos os Agendamentos</h3>
+          <div id="todos" aria-live="polite"></div>
+        </div>
+      </div>
     </section>
   </main>
+
+  <template id="agendamento-template">
+    <article class="agendamento">
+      <div class="meta"><strong class="nome"></strong> <span class="turma"></span></div>
+      <div class="info"><span class="data"></span> • <span class="horario"></span></div>
+      <div class="materia"></div>
+      <div class="status-row"></div>
+    </article>
+  </template>
 
   <script src="script.js"></script>
 </body>
